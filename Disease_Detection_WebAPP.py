@@ -407,9 +407,6 @@ st.write(prediction_proba*100)
 st.subheader('Classification :')
 st.write(prediction)
 
-
-
-
 if prediction == 1:
     st.warning('English : You probably have a disease. Recomanded : Consult your doctor\n '
                '\nFrancais : Vous avez probablement un risque de maladie , Consultez votre docteur')
