@@ -53,15 +53,18 @@ else:
 
 
 # SHow the data as a table
+data.drop_duplicates(inplace=True)
 data_lenght = len(data)
 head_number = (st.number_input('How many rows you want to show ?', 1, data_lenght))
 st.dataframe(data.head(head_number))
 st.write(data.shape)
 
+'''
 # Check for duplicates and erase them
 if st.checkbox('Remove duplicates if exists'):
     data.drop_duplicates(inplace=True)
     st.write(data.shape)
+'''
 
 # Show some statistics
 if st.checkbox('Show Statistics'):
@@ -96,12 +99,13 @@ else:
 # Split into train and test
 x_train, x_test, y_train, y_test = train_test_split(X, Y, test_size=0.25, random_state=4)
 
+'''
 #Features scaling
 
 sc = StandardScaler()
 x_train = sc.fit_transform(x_train)
 x_test = sc.transform(x_test)
-
+'''
 
 
 # Get the feature input from the user
