@@ -36,7 +36,7 @@ python-docx==0.8.10
 pytz==2020.4
 PyWavelets==1.1.1
 pywin32==300
-PyYAML==5.3.1
+PyYAML==5.4
 pyzmq==22.0.3
 redis==3.5.3
 repoze.lru==0.7
