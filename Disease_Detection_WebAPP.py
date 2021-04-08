@@ -41,14 +41,14 @@ classifier_name = st.sidebar.selectbox('Select the Classfier',
 # Get the data
 
 if selection == "Diabetes":
-    data = pd.read_csv(r'C:\Users\ASUS\PycharmProjects\ClassificationImages\tuto\ML webApp\diabetes.csv')
+    data = pd.read_csv(r'diabetes.csv')
     st.subheader('Data Information')
 elif selection == 'Heart':
-    data = pd.read_csv(r'C:\Users\ASUS\PycharmProjects\ClassificationImages\tuto\ML webApp\cardio.csv', sep=";")
+    data = pd.read_csv(r'cardio.csv', sep=";")
     data = data.iloc[:, 1:13]
     st.subheader('Data information')
 else:
-    data = pd.read_csv(r'C:\Users\ASUS\PycharmProjects\ClassificationImages\tuto\ML webApp\Breast_cancer_data.csv')
+    data = pd.read_csv(r'Breast_cancer_data.csv')
     st.subheader('Data Information')
 
 
