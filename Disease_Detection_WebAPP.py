@@ -27,7 +27,7 @@ Detect if someone has a Disease using machine learning and python!\n
 By Hamza LAMTOUNI
 """)
 # Open and display an image
-image = Image.open(r'C:/Users/ASUS/PycharmProjects/ClassificationImages/tuto/ML webApp/1.png').convert('RGB')
+image = Image.open(r'1.png').convert('RGB')
 st.image(image, caption='Machine Learning', use_column_width=True)
 
 # DataSet Selection
