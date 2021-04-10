@@ -27,11 +27,11 @@ Detect if someone has a Disease using machine learning and python!\n
 By Hamza LAMTOUNI
 """)
 # Open and display an image
-image = Image.open(r'1.png').convert('RGB')
+image = Image.open(r'C:/Users/ASUS/PycharmProjects/ClassificationImages/tuto/ML webApp/1.png').convert('RGB')
 st.image(image, caption='Machine Learning', use_column_width=True)
 
 # DataSet Selection
-selection = st.sidebar.selectbox('Select Dataset', ('Breast Cancer', 'Diabetes', 'Heart'))
+selection = st.sidebar.selectbox('Select Dataset', ('Breast Cancer','Breast cancer', 'Diabetes', 'Heart'))
 st.write(selection)
 
 # Classifier selection
@@ -42,18 +42,29 @@ classifier_name = st.sidebar.selectbox('Select the Classfier',
 
 if selection == "Diabetes":
     data = pd.read_csv(r'diabetes.csv')
+    # Check for duplicates and erase them
+    data.drop_duplicates(inplace=True)
     st.subheader('Data Information')
 elif selection == 'Heart':
     data = pd.read_csv(r'cardio.csv', sep=";")
+    data.drop_duplicates(inplace=True)
     data = data.iloc[:, 1:13]
     st.subheader('Data information')
+elif selection == "Breast cancer":
+    data = pd.read_csv(r'breast-cancer.csv')
+    data = data.dropna(axis=1)
+    data = data.iloc[:, 1:15]
+
+    data['diagnosis'].replace(['M', 'B'], [1, 0], inplace=True)
+    st.subheader('Data Information')
 else:
     data = pd.read_csv(r'Breast_cancer_data.csv')
+    data.drop_duplicates(inplace=True)
     st.subheader('Data Information')
 
 
 # SHow the data as a table
-data.drop_duplicates(inplace=True)
+
 data_lenght = len(data)
 head_number = (st.number_input('How many rows you want to show ?', 1, data_lenght))
 st.dataframe(data.head(head_number))
@@ -68,8 +79,9 @@ if st.checkbox('Show Statistics'):
 # show corelation
 st.set_option('deprecation.showPyplotGlobalUse', False)
 if st.checkbox('Show Corellation "%"'):
-    st.subheader('Corellation   ')
-    st.write(sns.heatmap(data.corr(), annot=True, fmt='.0%'))
+    st.subheader('Corellation')
+    plt.figure(figsize=(10,10))
+    st.write(sns.heatmap(data.iloc[:,0:12].corr(), annot=True, fmt='.0%'))
     st.pyplot()
 
 # Show the data as a chart
@@ -80,7 +92,9 @@ if st.checkbox('Show chart'):
 if selection == "Diabetes":
     X = data.iloc[:, 0:8].values
     Y = data.iloc[:, -1].values
-
+elif selection == "Breast cancer":
+    X = data.iloc[:, 1:14].values
+    Y = data.iloc[:, 0].values
 
 elif selection == 'Heart':
     X = data.iloc[:, 0:11].values
@@ -90,8 +104,12 @@ else:
     X = data.iloc[:, 0:5].values
     Y = data.iloc[:, -1].values
 
+
+
 # Split into train and test
 x_train, x_test, y_train, y_test = train_test_split(X, Y, test_size=0.25, random_state=4)
+
+
 
 
 # Get the feature input from the user
@@ -142,6 +160,37 @@ def get_user_input():
                      'alco': alco,
                      'active': active
                      }
+    elif selection == "Breast cancer":
+        radius_mean = st.sidebar.slider('radius_mean', 6.9810, 28.1100, 14.1273)
+        texture_mean = st.sidebar.slider('texture_mean', 9.7100, 39.2800, 19.2896)
+        perimeter_mean = st.sidebar.slider('perimeter_mean', 43.7900, 188.5000, 91.9690)
+        area_mean = st.sidebar.slider('area_mean', 143.5000, 2501.0, 654.8891)
+        smoothness_mean = st.sidebar.slider('smoothness_mean', 0.0526, 0.1634, 0.0964)
+        compactness_mean = st.sidebar.slider('compactness_mean', 0.0194, 0.3454, 0.1043)
+
+        concavity_mean = st.sidebar.slider('concavity_mean', 0.0, 0.4268, 0.0888)
+        concave_points_mean = st.sidebar.slider('concave_points_mean', 0.0, 0.2012, 0.0489)
+        symmetry_mean = st.sidebar.slider('symmetry_mean', 0.1060, 0.3040, 0.1812)
+        fractal_dimension_mean = st.sidebar.slider('fractal_dimension_mean', 0.0500, 0.0974, 0.0628)
+        radius_se = st.sidebar.slider('radius_se', 0.1115, 2.8730, 0.4052)
+        texture_se = st.sidebar.slider('texture_se', 0.3602, 4.8850, 1.2169)
+        perimetre_se = st.sidebar.slider('perimetre_se', 0.7570, 21.9800, 2.8661)
+
+        # Store a dictionnary into a variable
+        user_data = {'radius_mean': radius_mean,
+                     'texture_mean': texture_mean,
+                     'perimeter_mean': perimeter_mean,
+                     'area_mean': area_mean,
+                     'smoothness_mean': smoothness_mean,
+                     'compactness_mean': compactness_mean,
+                     'concavity_mean': concavity_mean,
+                     'concave_points_mean': concave_points_mean,
+                     'symmetry_mean': symmetry_mean,
+                     'fractal_dimension_mean': fractal_dimension_mean,
+                     'radius_se': radius_se,
+                     'texture_se': texture_se,
+                     'perimetre_se': perimetre_se
+                     }
 
     else:
         mean_radius = st.sidebar.slider('mean_radius', 0.0, 28.1100, 14.1273)
@@ -155,7 +204,7 @@ def get_user_input():
                      'mean_texture': mean_texture,
                      'mean_perimeter': mean_perimeter,
                      'mean_area': mean_area,
-                     'mean_smoothness': mean_smoothness,
+                     'mean_smoothness': mean_smoothness
                      }
 
     # Transform the data into a dataframe
@@ -378,12 +427,7 @@ else:
     st.write('Our False Negatif Confusion Matrix value is :',false_negatif)
     st.write('Our False Positif Confusion Matrix value is :',false_positif)
     st.success('Formula for Accuracy is : (True Negatif + True Positif) / (True Negatif + True Positif + False Negatif + False Positif) ')
-
-
     st.write('Model Test Accuracy by using confusion matrix = {}'.format( (tru_positif + tru_negatif) / (tru_negatif+tru_positif+false_positif+false_negatif)))
-
-
-
 
     prediction = knn.predict(user_input)
     prediction_proba = knn.predict_proba(user_input)
@@ -403,3 +447,4 @@ else:
                '\nFrancais : Vous n"avez probablement aucune maladie ! ')
 
 #  streamlit run "C:/Users/ASUS/PycharmProjects/ClassificationImages/tuto/ML webApp/Disease_Detection_WebAPP.py"
+# Website : https://share.streamlit.io/miraiinik/disease-detection/Disease_Detection_WebAPP.py
