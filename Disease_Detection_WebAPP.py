@@ -24,8 +24,7 @@ maxUploadSize = 200
 st.write("""
 # Disease Detector
 Detect if someone has a Disease using machine learning and python!\n
-Pretty simple project , User can choose type of data he want to display , the type of Machine Learning model he wants to use\n
-and the use variables at the right to see if the output will change (0 : probably not sick , 1 : probably sick) , the use can display the correlation matrix to see which variable will make a change in the output !\n
+Pretty simple project , User can choose type of data he want to display , the type of Machine Learning model he wants to use and the use variables at the right to see if the output will change (0 : probably not sick , 1 : probably sick) , the use can display the correlation matrix to see which variable will make a change in the output ! Hope you like My project , Have Fun !\n
 By Hamza LAMTOUNI
 """)
 # Open and display an image
