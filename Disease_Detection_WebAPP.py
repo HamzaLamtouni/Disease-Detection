@@ -27,7 +27,7 @@ Detect if someone has a Disease using machine learning and python!\n
 By Hamza LAMTOUNI
 """)
 # Open and display an image
-image = Image.open(r'1.png').convert('RGB')
+image = Image.open(r'C:/Users/ASUS/PycharmProjects/ClassificationImages/tuto/ML webApp/1.png').convert('RGB')
 st.image(image, caption='Machine Learning', use_column_width=True)
 
 # DataSet Selection
@@ -41,24 +41,23 @@ classifier_name = st.sidebar.selectbox('Select the Classfier',
 # Get the data
 
 if selection == "Diabetes":
-    data = pd.read_csv(r'diabetes.csv')
+    data = pd.read_csv(r'C:\Users\ASUS\PycharmProjects\ClassificationImages\tuto\ML webApp\diabetes.csv')
     # Check for duplicates and erase them
     data.drop_duplicates(inplace=True)
     st.subheader('Data Information')
 elif selection == 'Heart':
-    data = pd.read_csv(r'cardio.csv', sep=";")
+    data = pd.read_csv(r'C:\Users\ASUS\PycharmProjects\ClassificationImages\tuto\ML webApp\cardio.csv', sep=";")
     data.drop_duplicates(inplace=True)
     data = data.iloc[:, 1:13]
     st.subheader('Data information')
 elif selection == "Breast cancer":
-    data = pd.read_csv(r'breast-cancer.csv')
+    data = pd.read_csv(r'C:\Users\ASUS\PycharmProjects\ClassificationImages\tuto\ML webApp\breast-cancer.csv')
     data = data.dropna(axis=1)
     data = data.iloc[:, 1:15]
-
     data['diagnosis'].replace(['M', 'B'], [1, 0], inplace=True)
     st.subheader('Data Information')
 else:
-    data = pd.read_csv(r'Breast_cancer_data.csv')
+    data = pd.read_csv(r'C:\Users\ASUS\PycharmProjects\ClassificationImages\tuto\ML webApp\Breast_cancer_data.csv')
     data.drop_duplicates(inplace=True)
     st.subheader('Data Information')
 
@@ -69,7 +68,6 @@ data_lenght = len(data)
 head_number = (st.number_input('How many rows you want to show ?', 1, data_lenght))
 st.dataframe(data.head(head_number))
 st.write(data.shape)
-
 
 # Show some statistics
 if st.checkbox('Show Statistics'):
@@ -85,8 +83,28 @@ if st.checkbox('Show Corellation "%"'):
     st.pyplot()
 
 # Show the data as a chart
-if st.checkbox('Show chart'):
-    chart = st.bar_chart(data)
+if st.checkbox('Show plot Target (y)'):
+
+    if selection == "Diabetes":
+        st.subheader('Count of the target Y (Outcome Values)')
+        sns.countplot(data['Outcome'],label='count')
+        st.pyplot(plt)
+        st.write(data['Outcome'].value_counts())
+    elif selection == "Heart":
+        st.subheader('Count of the target Y (Cardio Values)')
+        sns.countplot(data['cardio'], label='count')
+        st.pyplot(plt)
+        st.write(data['cardio'].value_counts())
+    elif selection == "Breast Cancer":
+        st.subheader('Count of the target Y (Diagnosis Values)')
+        sns.countplot(data['diagnosis'], label='count')
+        st.pyplot(plt)
+        st.write(data['diagnosis'].value_counts())
+    else :
+        st.subheader('Count of the target Y (Diagnosis Values)')
+        sns.countplot(data['diagnosis'], label='count')
+        st.pyplot(plt)
+        st.write(data['diagnosis'].value_counts())
 
 # Split the data into independant X and dependent y
 if selection == "Diabetes":
