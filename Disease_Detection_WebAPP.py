@@ -51,7 +51,7 @@ elif selection == 'Heart':
     data = data.iloc[:, 1:13]
     st.subheader('Data information')
 else:
-    selection == "Breast cancer":
+    
     data = pd.read_csv(r'breast-cancer.csv')
     data = data.dropna(axis=1)
     data = data.iloc[:, 1:15]
