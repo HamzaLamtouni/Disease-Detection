@@ -178,7 +178,7 @@ def get_user_input():
     
 
     else:
-      selection == "Breast cancer":
+      
         radius_mean = st.sidebar.slider('radius_mean', 6.9810, 28.1100, 14.1273)
         texture_mean = st.sidebar.slider('texture_mean', 9.7100, 39.2800, 19.2896)
         perimeter_mean = st.sidebar.slider('perimeter_mean', 43.7900, 188.5000, 91.9690)
