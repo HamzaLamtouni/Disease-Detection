@@ -31,7 +31,7 @@ image = Image.open(r'1.png').convert('RGB')
 st.image(image, caption='Machine Learning', use_column_width=True)
 
 # DataSet Selection
-selection = st.sidebar.selectbox('Select Dataset', ('Breast Cancer','Breast cancer', 'Diabetes', 'Heart'))
+selection = st.sidebar.selectbox('Select Dataset', ('Breast cancer', 'Diabetes', 'Heart'))
 st.write(selection)
 
 # Classifier selection
@@ -41,24 +41,21 @@ classifier_name = st.sidebar.selectbox('Select the Classfier',
 # Get the data
 
 if selection == "Diabetes":
-    data = pd.read_csv(r'C:\Users\ASUS\PycharmProjects\ClassificationImages\tuto\ML webApp\diabetes.csv')
+    data = pd.read_csv(r'diabetes.csv')
     # Check for duplicates and erase them
     data.drop_duplicates(inplace=True)
     st.subheader('Data Information')
 elif selection == 'Heart':
-    data = pd.read_csv(r'C:\Users\ASUS\PycharmProjects\ClassificationImages\tuto\ML webApp\cardio.csv', sep=";")
+    data = pd.read_csv(r'cardio.csv', sep=";")
     data.drop_duplicates(inplace=True)
     data = data.iloc[:, 1:13]
     st.subheader('Data information')
-elif selection == "Breast cancer":
-    data = pd.read_csv(r'C:\Users\ASUS\PycharmProjects\ClassificationImages\tuto\ML webApp\breast-cancer.csv')
+else:
+    selection == "Breast cancer":
+    data = pd.read_csv(r'breast-cancer.csv')
     data = data.dropna(axis=1)
     data = data.iloc[:, 1:15]
     data['diagnosis'].replace(['M', 'B'], [1, 0], inplace=True)
-    st.subheader('Data Information')
-else:
-    data = pd.read_csv(r'C:\Users\ASUS\PycharmProjects\ClassificationImages\tuto\ML webApp\Breast_cancer_data.csv')
-    data.drop_duplicates(inplace=True)
     st.subheader('Data Information')
 
 
@@ -178,7 +175,10 @@ def get_user_input():
                      'alco': alco,
                      'active': active
                      }
-    elif selection == "Breast cancer":
+    
+
+    else:
+      selection == "Breast cancer":
         radius_mean = st.sidebar.slider('radius_mean', 6.9810, 28.1100, 14.1273)
         texture_mean = st.sidebar.slider('texture_mean', 9.7100, 39.2800, 19.2896)
         perimeter_mean = st.sidebar.slider('perimeter_mean', 43.7900, 188.5000, 91.9690)
@@ -209,22 +209,7 @@ def get_user_input():
                      'texture_se': texture_se,
                      'perimetre_se': perimetre_se
                      }
-
-    else:
-        mean_radius = st.sidebar.slider('mean_radius', 0.0, 28.1100, 14.1273)
-        mean_texture = st.sidebar.slider('mean_texture', 0.0, 39.2800, 19.2896)
-        mean_perimeter = st.sidebar.slider('mean_perimeter', 0.0, 188.5000, 91.9690)
-        mean_area = st.sidebar.slider('mean_area', 0.0, 2501.0, 654.8891)
-        mean_smoothness = st.sidebar.slider('mean_smoothness', 0.0, 0.1634, 0.0964)
-
-        # Store a dictionnary into a variable
-        user_data = {'mean_radius': mean_radius,
-                     'mean_texture': mean_texture,
-                     'mean_perimeter': mean_perimeter,
-                     'mean_area': mean_area,
-                     'mean_smoothness': mean_smoothness
-                     }
-
+        
     # Transform the data into a dataframe
     features = pd.DataFrame(user_data, index=[0])
     return features
